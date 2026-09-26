@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سينمانا - منصة الأفلام والمسلسلات</title>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --bg-main: #0b0c10;
+            --bg-card: #1f2833;
+            --bg-card-hover: #2c3e50;
+            --text-main: #ffffff;
+            --text-muted: #c5c6c7;
+            --accent: #66fcf1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* Header / Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-box input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Filters Bar */
+        .genres-bar {
+            display: flex;
+            gap: 10px;
+            padding: 10px 5%;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+
+        .genres-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .genre-btn {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .genre-btn:hover, .genre-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Main Container */
+        .container {
+            padding: 20px 5%;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--primary-color);
+            padding-right: 10px;
+        }
+
+        /* Movie Grid */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 12px;
+        }
+
+        .movie-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .rating {
+            color: #f1c40f;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Modal Player */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-content {
+            max-width: 900px;
+            margin: 40px auto;
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10;
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .player-details {
+            padding: 20px;
+        }
+
+        .server-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .server-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .server-btn.active {
+            background: var(--primary-color);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo"><i class="fas fa-play-circle"></i> سينمانا</a>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن فيلم...">
+        </div>
+    </header>
+
+    <!-- Genre Filters -->
+    <div class="genres-bar" id="genresBar">
+        <button class="genre-btn active" data-id="all">الكل</button>
+        <button class="genre-btn" data-id="28">أكشن</button>
+        <button class="genre-btn" data-id="35">كوميديا</button>
+        <button class="genre-btn" data-id="18">دراما</button>
+        <button class="genre-btn" data-id="27">رعب</button>
+        <button class="genre-btn" data-id="878">خيال علمي</button>
+        <button class="genre-btn" data-id="10749">رومانسي</button>
+        <button class="genre-btn" data-id="16">أنيميشن</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title" id="sectionTitle">الأفلام الشائعة</h2>
+        <div class="movies-grid" id="moviesGrid">
+            <div class="loading">جاري تحميل الأفلام...</div>
+        </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <div class="video-container">
+                <iframe id="videoIframe" src="" allowfullscreen></iframe>
+            </div>
+            <div class="player-details">
+                <h2 id="modalTitle">اسم الفيلم</h2>
+                <div class="server-selector" id="serverSelector">
+                    <button class="server-btn active" onclick="changeServer(1)">سيرفر 1 (Vidsrc)</button>
+                    <button class="server-btn" onclick="changeServer(2)">سيرفر 2 (SuperEmbed)</button>
+                </div>
+                <p id="modalOverview" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // مفتاح API الخاص بك
+        const API_KEY = 'e2b3e8e19e1208947d6e6f4a8cb87c2a';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMG_URL = 'https://image.tmdb.org/t500';
+
+        const moviesGrid = document.getElementById('moviesGrid');
+        const searchInput = document.getElementById('searchInput');
+        const genresBar = document.getElementById('genresBar');
+        const sectionTitle = document.getElementById('sectionTitle');
+        const videoModal = document.getElementById('videoModal');
+        const closeModal = document.getElementById('closeModal');
+        const videoIframe = document.getElementById('videoIframe');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalOverview = document.getElementById('modalOverview');
+
+        let currentMovieId = null;
+
+        // 1. جلب الأفلام الشائعة عند فتح الموقع
+        async function getMovies(url) {
+            try {
+                moviesGrid.innerHTML = '<div class="loading">جاري التحميل...</div>';
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.results && data.results.length > 0) {
+                    displayMovies(data.results);
+                } else {
+                    moviesGrid.innerHTML = '<div class="loading">لم يتم العثور على نتائج.</div>';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                moviesGrid.innerHTML = '<div class="loading">حدث خطأ في تحميل البيانات.</div>';
+            }
+        }
+
+        // 2. عرض الأفلام في الشبكة
+        function displayMovies(movies) {
+            moviesGrid.innerHTML = '';
+            movies.forEach(movie => {
+                const posterPath = movie.poster_path ? IMG_URL + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Poster';
+                const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
+                
+                const card = document.createElement('div');
+                card.classList.add('movie-card');
+                card.innerHTML = `
+                    <img src="${posterPath}" alt="${movie.title}">
+                    <div class="movie-info">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-meta">
+                            <span>${releaseYear}</span>
+                            <span class="rating"><i class="fas fa-star"></i> ${movie.vote_average.toFixed(1)}</span>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => openPlayer(movie));
+                moviesGrid.appendChild(card);
+            });
+        }
+
+        // 3. فتح مشغل الفيديو
+        function openPlayer(movie) {
+            currentMovieId = movie.id;
+            modalTitle.textContent = movie.title;
+            modalOverview.textContent = movie.overview || 'لا يوجد وصف متاح لهذا الفيلم حالياً.';
+            
+            // تعيين السيرفر الأول افتراضياً
+            changeServer(1);
+            videoModal.style.display = 'block';
+        }
+
+        // 4. تغيير سيرفرات التشغيل
+        function changeServer(serverNum) {
+            document.querySelectorAll('.server-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === (serverNum - 1));
+            });
+
+            if (serverNum === 1) {
+                videoIframe.src = `https://vidsrc.to/embed/movie/${currentMovieId}`;
+            } else if (serverNum === 2) {
+                videoIframe.src = `https://multiembed.mov/directstream.php?video_id=${currentMovieId}&tmdb=1`;
+            }
+        }
+
+        // إغلاق النافذة المنبثقة
+        closeModal.addEventListener('click', () => {
+            videoModal.style.display = 'none';
+            videoIframe.src = ''; // إيقاف التشغيل
+        });
+
+        // 5. البحث عن أفلام
+        searchInput.addEventListener('keyup', (e) => {
+            const query = e.target.value.trim();
+            if (query.length > 2) {
+                sectionTitle.textContent = `نتائج البحث عن: ${query}`;
+                getMovies(`${BASE_URL}/search/movie?api_key=${API_KEY}&language=ar-SA&query=${encodeURIComponent(query)}`);
+            } else if (query.length === 0) {
+                sectionTitle.textContent = 'الأفلام الشائعة';
+                getMovies(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ar-SA`);
+            }
+        });
+
+        // 6. تصفية حسب التصنيف
+        genresBar.addEventListener('click', (e) => {
+            if (e.target.classList.contains('genre-btn')) {
+                document.querySelectorAll('.genre-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const genreId = e.target.getAttribute('data-id');
+                if (genreId === 'all') {
+                    sectionTitle.textContent = 'الأفلام الشائعة';
+                    getMovies(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ar-SA`);
+                } else {
+                    sectionTitle.textContent = `أفلام ${e.target.textContent}`;
+                    getMovies(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ar-SA&with_genres=${genreId}`);
+                }
+            }
+        });
+
+        // التشغيل الأول عند تحمّيل الصفحة
+        getMovies(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ar-SA`);
+    </script>
+</body>
+</html>
