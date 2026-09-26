@@ -11,7 +11,6 @@
     <style>
         :root {
             --primary-color: #e50914;
-            --primary-hover: #f40612;
             --bg-main: #0a0b0e;
             --bg-card: #14161d;
             --bg-card-hover: #1c1f2a;
@@ -36,7 +35,6 @@
             min-height: 100vh;
         }
 
-        /* Header / Navbar */
         header {
             display: flex;
             justify-content: space-between;
@@ -58,11 +56,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            letter-spacing: -0.5px;
-        }
-
-        .logo i {
-            font-size: 2rem;
         }
 
         .search-box {
@@ -94,10 +87,8 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 1.1rem;
         }
 
-        /* Filters Bar */
         .genres-bar {
             display: flex;
             gap: 12px;
@@ -130,29 +121,18 @@
             box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
         }
 
-        /* Main Container */
         .container {
             padding: 10px 5% 40px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
         }
 
         .section-title {
             font-size: 1.6rem;
             font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-bottom: 25px;
             border-right: 4px solid var(--primary-color);
             padding-right: 12px;
         }
 
-        /* Movie Grid */
         .movies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -164,24 +144,21 @@
             border-radius: 14px;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s ease;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
         }
 
         .movie-card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-8px);
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(229, 9, 20, 0.3);
             border-color: rgba(229, 9, 20, 0.5);
-            background: var(--bg-card-hover);
         }
 
         .poster-wrapper {
             position: relative;
             width: 100%;
-            padding-top: 150%; /* 2:3 Aspect Ratio */
+            padding-top: 150%;
             background: #1a1c23;
             overflow: hidden;
         }
@@ -193,11 +170,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .movie-card:hover .poster-wrapper img {
-            transform: scale(1.08);
         }
 
         .rating-badge {
@@ -205,56 +177,15 @@
             top: 10px;
             left: 10px;
             background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(5px);
             color: var(--accent-gold);
             padding: 4px 8px;
             border-radius: 8px;
             font-size: 0.85rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            border: 1px solid rgba(255, 180, 0, 0.3);
-        }
-
-        .play-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .play-overlay i {
-            font-size: 3rem;
-            color: var(--primary-color);
-            background: rgba(255, 255, 255, 0.9);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-right: 4px;
-            box-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
-        }
-
-        .movie-card:hover .play-overlay {
-            opacity: 1;
         }
 
         .movie-info {
             padding: 14px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            justify-content: space-between;
         }
 
         .movie-title {
@@ -264,27 +195,16 @@
             overflow: hidden;
             text-overflow: ellipsis;
             margin-bottom: 6px;
-            color: #fff;
         }
 
         .movie-meta {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             font-size: 0.82rem;
             color: var(--text-muted);
         }
 
-        .quality-tag {
-            background: rgba(229, 9, 20, 0.15);
-            color: var(--primary-color);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 0.75rem;
-        }
-
-        /* Modal Player */
+        /* Modal Player Enhanced */
         .modal {
             display: none;
             position: fixed;
@@ -292,46 +212,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.92);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 1000;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
             backdrop-filter: blur(10px);
         }
 
         .modal-content {
             max-width: 950px;
-            margin: 30px auto;
+            margin: 20px auto;
             background: var(--bg-card);
             border-radius: 18px;
             overflow: hidden;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
         }
 
         .close-btn {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 12px;
+            left: 12px;
             font-size: 1.4rem;
             color: #fff;
             cursor: pointer;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.7);
-            width: 42px;
-            height: 42px;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.8);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .close-btn:hover {
-            background: var(--primary-color);
-            transform: rotate(90deg);
         }
 
         .video-container {
@@ -351,26 +263,15 @@
         }
 
         .player-details {
-            padding: 24px;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            flex-wrap: wrap;
+            padding: 20px;
         }
 
         .server-selector {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.4);
             padding: 10px;
             border-radius: 12px;
         }
@@ -379,50 +280,42 @@
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 9px 18px;
+            padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 0.88rem;
             font-weight: 600;
-            transition: all 0.3s;
+        }
+
+        .server-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Sound Boost Bar */
+        .audio-boost-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .audio-boost-bar label {
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .server-btn.active, .server-btn:hover {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
-        }
-
-        .external-btn {
-            background: #27ae60;
-            color: #fff;
-            text-decoration: none;
-            padding: 9px 18px;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-right: auto;
-            transition: background 0.3s;
-        }
-
-        .external-btn:hover {
-            background: #219653;
-        }
-
-        .modal-overview {
-            color: var(--text-muted);
-            font-size: 0.98rem;
-            line-height: 1.7;
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 10px;
-            border-right: 3px solid var(--primary-color);
+        .audio-boost-bar input[type=range] {
+            flex-grow: 1;
+            accent-color: var(--primary-color);
+            cursor: pointer;
         }
 
         .loading {
@@ -432,45 +325,10 @@
             color: var(--text-muted);
             grid-column: 1 / -1;
         }
-
-        .loading i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            .search-box {
-                width: 100%;
-            }
-            .movies-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-                gap: 14px;
-            }
-            .poster-wrapper {
-                padding-top: 145%;
-            }
-            .movie-info {
-                padding: 10px;
-            }
-            .movie-title {
-                font-size: 0.88rem;
-            }
-            .container {
-                padding: 10px 15px 30px;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <a href="#" class="logo"><i class="fas fa-play-circle"></i> سينمانا</a>
         <div class="search-box">
@@ -479,9 +337,8 @@
         </div>
     </header>
 
-    <!-- Genre Filters -->
     <div class="genres-bar" id="genresBar">
-        <button class="genre-btn active" data-id="all"><i class="fas fa-fire"></i> الشائعة</button>
+        <button class="genre-btn active" data-id="all">الكل</button>
         <button class="genre-btn" data-id="28">أكشن</button>
         <button class="genre-btn" data-id="35">كوميديا</button>
         <button class="genre-btn" data-id="18">دراما</button>
@@ -491,16 +348,10 @@
         <button class="genre-btn" data-id="16">أنيميشن</button>
     </div>
 
-    <!-- Main Content -->
     <div class="container">
-        <div class="section-header">
-            <h2 class="section-title" id="sectionTitle">أحدث الأفلام المتاحة</h2>
-        </div>
+        <h2 class="section-title" id="sectionTitle">الأفلام الشائعة</h2>
         <div class="movies-grid" id="moviesGrid">
-            <div class="loading">
-                <i class="fas fa-circle-notch fa-spin"></i>
-                جاري تحميل مكتبة الأفلام...
-            </div>
+            <div class="loading">جاري تحميل الأفلام...</div>
         </div>
     </div>
 
@@ -509,30 +360,33 @@
         <div class="modal-content">
             <span class="close-btn" id="closeModal">&times;</span>
             <div class="video-container">
-                <iframe id="videoIframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                <!-- أذونات الصوت والشاشة المكتملة مدمجة هنا -->
+                <iframe id="videoIframe" src="" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; volume"></iframe>
             </div>
             <div class="player-details">
-                <div class="modal-title">
-                    <span id="modalTitle">اسم الفيلم</span>
-                    <a id="externalLink" href="#" target="_blank" class="external-btn">
-                        <i class="fas fa-external-link-alt"></i> فتح بصفحة خارجية
-                    </a>
-                </div>
+                <h2 id="modalTitle" style="margin-bottom: 12px; font-size: 1.4rem;">اسم الفيلم</h2>
                 
-                <div class="server-selector" id="serverSelector">
-                    <button class="server-btn active" onclick="changeServer(1)"><i class="fas fa-server"></i> سيرفر 1 (VIP)</button>
-                    <button class="server-btn" onclick="changeServer(2)"><i class="fas fa-server"></i> سيرفر 2 (Pro)</button>
-                    <button class="server-btn" onclick="changeServer(3)"><i class="fas fa-server"></i> سيرفر 3 (Auto)</button>
-                    <button class="server-btn" onclick="changeServer(4)"><i class="fas fa-server"></i> سيرفر 4 (2Embed)</button>
+                <!-- سيرفرات التشغيل الأكثر استقراراً -->
+                <div class="server-selector">
+                    <button class="server-btn active" onclick="changeServer(1)"><i class="fas fa-play"></i> سيرفر 1 (أساسي)</button>
+                    <button class="server-btn" onclick="changeServer(2)"><i class="fas fa-play"></i> سيرفر 2 (سريع)</button>
+                    <button class="server-btn" onclick="changeServer(3)"><i class="fas fa-play"></i> سيرفر 3 (احتياطي)</button>
+                    <button class="server-btn" onclick="changeServer(4)"><i class="fas fa-play"></i> سيرفر 4 (HD)</button>
                 </div>
-                
-                <p id="modalOverview" class="modal-overview"></p>
+
+                <!-- شريط رفع الصوت والتضخيم -->
+                <div class="audio-boost-bar">
+                    <label><i class="fas fa-volume-up"></i> رفع الصوت:</label>
+                    <input type="range" id="volumeRange" min="0" max="100" value="100" oninput="adjustVolume(this.value)">
+                    <span id="volumeVal" style="font-weight: bold; min-width: 40px;">100%</span>
+                </div>
+
+                <p id="modalOverview" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></p>
             </div>
         </div>
     </div>
 
     <script>
-        // مفتاح TMDB الخاص بك
         const API_KEY = '4b93e22787e9bcf9d672b62daaedfceb';
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_URL = 'https://image.tmdb.org/t500';
@@ -546,43 +400,18 @@
         const videoIframe = document.getElementById('videoIframe');
         const modalTitle = document.getElementById('modalTitle');
         const modalOverview = document.getElementById('modalOverview');
-        const externalLink = document.getElementById('externalLink');
 
         let currentMovieId = null;
 
-        // دالة توليد غلاف SVG احترافي يمنع ظهور علامات الاستفهام ????
         function createFallbackPoster(title) {
             const cleanTitle = (title || 'فيلم سينمائي').replace(/[\'<">]/g, '');
-            const svg = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="500" height="750" viewBox="0 0 500 750">
-                <defs>
-                    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1e222d"/>
-                        <stop offset="100%" stop-color="#0a0b0e"/>
-                    </linearGradient>
-                </defs>
-                <rect width="500" height="750" fill="url(#bg)"/>
-                <circle cx="250" cy="300" r="80" fill="#e50914" opacity="0.15"/>
-                <polygon points="230,260 290,300 230,340" fill="#e50914"/>
-                <text x="250" y="480" font-family="Cairo, sans-serif" font-size="28" font-weight="bold" fill="#ffffff" text-anchor="middle">
-                    ${cleanTitle.length > 22 ? cleanTitle.substring(0, 22) + '...' : cleanTitle}
-                </text>
-                <text x="250" y="520" font-family="Cairo, sans-serif" font-size="18" fill="#e50914" text-anchor="middle">
-                    سينمانا
-                </text>
-            </svg>`;
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="750" viewBox="0 0 500 750"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e222d"/><stop offset="100%" stop-color="#0a0b0e"/></linearGradient></defs><rect width="500" height="750" fill="url(#bg)"/><circle cx="250" cy="300" r="80" fill="#e50914" opacity="0.15"/><polygon points="230,260 290,300 230,340" fill="#e50914"/><text x="250" y="480" font-family="Cairo, sans-serif" font-size="28" font-weight="bold" fill="#ffffff" text-anchor="middle">${cleanTitle.length > 20 ? cleanTitle.substring(0, 20) + '...' : cleanTitle}</text></svg>`;
             return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
         }
 
-        // 1. جلب البيانات من TMDB (الأفلام الصادرة والمتاحة)
         async function getMovies(endpoint) {
             try {
-                moviesGrid.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-circle-notch fa-spin"></i>
-                        جاري جلب الأفلام...
-                    </div>`;
-                
+                moviesGrid.innerHTML = '<div class="loading">جاري التحميل...</div>';
                 const url = `${BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${API_KEY}&language=ar-SA`;
                 const res = await fetch(url);
                 const data = await res.json();
@@ -590,30 +419,20 @@
                 if (data.results && data.results.length > 0) {
                     displayMovies(data.results);
                 } else {
-                    const fallbackUrl = `${BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${API_KEY}&language=en-US`;
-                    const fallbackRes = await fetch(fallbackUrl);
-                    const fallbackData = await fallbackRes.json();
-                    
-                    if (fallbackData.results && fallbackData.results.length > 0) {
-                        displayMovies(fallbackData.results);
-                    } else {
-                        moviesGrid.innerHTML = '<div class="loading">لم يتم العثور على أية أفلام حالياً.</div>';
-                    }
+                    moviesGrid.innerHTML = '<div class="loading">لم يتم العثور على أية أفلام.</div>';
                 }
             } catch (error) {
-                console.error('API Error:', error);
-                moviesGrid.innerHTML = '<div class="loading">حدث خطأ في جلب البيانات، يرجى المحاولة لاحقاً.</div>';
+                moviesGrid.innerHTML = '<div class="loading">حدث خطأ في الاتصال بالخادم.</div>';
             }
         }
 
-        // 2. عرض كروت الأفلام
         function displayMovies(movies) {
             moviesGrid.innerHTML = '';
             movies.forEach(movie => {
                 const title = movie.title || movie.name || 'بدون عنوان';
                 const fallbackPoster = createFallbackPoster(title);
                 const posterPath = movie.poster_path ? (IMG_URL + movie.poster_path) : fallbackPoster;
-                const releaseYear = (movie.release_date || movie.first_air_date || '').split('-')[0] || '2024';
+                const releaseYear = (movie.release_date || '').split('-')[0] || '2024';
                 const rating = movie.vote_average ? movie.vote_average.toFixed(1) : '8.0';
 
                 const card = document.createElement('div');
@@ -621,18 +440,13 @@
                 card.innerHTML = `
                     <div class="poster-wrapper">
                         <img src="${posterPath}" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackPoster}';">
-                        <div class="rating-badge">
-                            <i class="fas fa-star"></i> ${rating}
-                        </div>
-                        <div class="play-overlay">
-                            <i class="fas fa-play"></i>
-                        </div>
+                        <div class="rating-badge"><i class="fas fa-star"></i> ${rating}</div>
                     </div>
                     <div class="movie-info">
                         <div class="movie-title" title="${title}">${title}</div>
                         <div class="movie-meta">
                             <span>${releaseYear}</span>
-                            <span class="quality-tag">FHD</span>
+                            <span style="color:#e50914; font-weight:bold;">FHD</span>
                         </div>
                     </div>
                 `;
@@ -642,18 +456,21 @@
             });
         }
 
-        // 3. فتح المشغل
         function openPlayer(movie) {
             currentMovieId = movie.id;
             modalTitle.textContent = movie.title || movie.name;
-            modalOverview.textContent = movie.overview || 'لا يوجد وصف متاح لهذا الفيلم حالياً باللغة العربية.';
+            modalOverview.textContent = movie.overview || 'لا يوجد وصف متاح باللغة العربية.';
             
+            // إعادة تعيين شريط الصوت عند الفتح
+            document.getElementById('volumeRange').value = 100;
+            document.getElementById('volumeVal').textContent = '100%';
+
             changeServer(1);
             videoModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
 
-        // 4. تغيير سيرفرات البث
+        // السيرفرات المدمجة مع روابط جلب فيديو مباشرة داخل المشغل
         function changeServer(serverNum) {
             document.querySelectorAll('.server-btn').forEach((btn, idx) => {
                 btn.classList.toggle('active', idx === (serverNum - 1));
@@ -661,71 +478,69 @@
 
             let streamUrl = '';
             if (serverNum === 1) {
-                streamUrl = `https://vidsrc.vip/embed/movie/${currentMovieId}`;
+                streamUrl = `https://vidsrc.me/embed/movie/${currentMovieId}`;
             } else if (serverNum === 2) {
-                streamUrl = `https://vidsrc.cc/v2/embed/movie/${currentMovieId}`;
+                streamUrl = `https://vidsrc.xyz/embed/movie/${currentMovieId}`;
             } else if (serverNum === 3) {
-                streamUrl = `https://player.autoembed.cc/embed/movie/${currentMovieId}`;
+                streamUrl = `https://embed.su/embed/movie/${currentMovieId}`;
             } else if (serverNum === 4) {
-                streamUrl = `https://www.2embed.cc/embed/${currentMovieId}`;
+                streamUrl = `https://vidsrc.cc/v2/embed/movie/${currentMovieId}`;
             }
 
             videoIframe.src = streamUrl;
-            externalLink.href = streamUrl;
         }
 
-        // إغلاق نافذة المشغل
+        function adjustVolume(val) {
+            document.getElementById('volumeVal').textContent = val + '%';
+            // محاولة إرسال أمر تعديل الصوت ببروتوكول postMessage للـ iframe
+            if (videoIframe.contentWindow) {
+                videoIframe.contentWindow.postMessage(JSON.stringify({
+                    event: 'command',
+                    func: 'setVolume',
+                    args: [val]
+                }), '*');
+            }
+        }
+
         closeModal.addEventListener('click', () => {
             videoModal.style.display = 'none';
             videoIframe.src = '';
             document.body.style.overflow = 'auto';
         });
 
-        window.addEventListener('click', (e) => {
-            if (e.target === videoModal) {
-                videoModal.style.display = 'none';
-                videoIframe.src = '';
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // 5. البحث الفوري
+        // البحث والتصنيف
         let searchTimeout;
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             const query = e.target.value.trim();
-
             searchTimeout = setTimeout(() => {
                 if (query.length > 1) {
-                    sectionTitle.textContent = `نتائج البحث عن: ${query}`;
+                    sectionTitle.textContent = `نتائج البحث: ${query}`;
                     getMovies(`/search/movie?query=${encodeURIComponent(query)}`);
                 } else if (query.length === 0) {
-                    sectionTitle.textContent = 'أحدث الأفلام المتاحة';
-                    getMovies('/discover/movie?sort_by=popularity.desc&primary_release_date.lte=2024-12-31');
+                    sectionTitle.textContent = 'الأفلام الشائعة';
+                    getMovies('/discover/movie?sort_by=popularity.desc');
                 }
             }, 500);
         });
 
-        // 6. التصنيفات
         genresBar.addEventListener('click', (e) => {
-            const btn = e.target.closest('.genre-btn');
-            if (btn) {
+            if (e.target.classList.contains('genre-btn')) {
                 document.querySelectorAll('.genre-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const genreId = btn.getAttribute('data-id');
+                e.target.classList.add('active');
+                const genreId = e.target.getAttribute('data-id');
                 if (genreId === 'all') {
-                    sectionTitle.textContent = 'أحدث الأفلام المتاحة';
-                    getMovies('/discover/movie?sort_by=popularity.desc&primary_release_date.lte=2024-12-31');
+                    sectionTitle.textContent = 'الأفلام الشائعة';
+                    getMovies('/discover/movie?sort_by=popularity.desc');
                 } else {
-                    sectionTitle.textContent = `أفلام ${btn.textContent.trim()}`;
-                    getMovies(`/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&primary_release_date.lte=2024-12-31`);
+                    sectionTitle.textContent = `أفلام ${e.target.textContent}`;
+                    getMovies(`/discover/movie?with_genres=${genreId}&sort_by=popularity.desc`);
                 }
             }
         });
 
-        // التحميل المبدئي للأفلام المتاحة
-        getMovies('/discover/movie?sort_by=popularity.desc&primary_release_date.lte=2024-12-31');
+        // التحميل المبدئي
+        getMovies('/discover/movie?sort_by=popularity.desc');
     </script>
 </body>
 </html>
