@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix - مشغل Plyr مع الترجمة العربية</title>
+    <title>Netflix - منصة الأفلام مع مشغل Plyr والترجمة</title>
     
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,6 +19,7 @@
             --bg-card: #181818;
             --text-white: #ffffff;
             --text-gray: #a3a3a3;
+            --plyr-color-main: var(--netflix-red);
         }
 
         * {
@@ -55,7 +56,6 @@
         .nav-links a { color: #e5e5e5; text-decoration: none; font-size: 0.82rem; font-weight: 600; }
         .nav-links a.active { color: #fff; font-weight: 800; background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 20px; }
         .nav-left { display: flex; align-items: center; gap: 18px; }
-        .nav-icon { color: #fff; font-size: 1.1rem; cursor: pointer; }
         .kids-badge { background: rgba(255,255,255,0.15); color: #fff; padding: 2px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
         .avatar { width: 28px; height: 28px; border-radius: 4px; object-fit: cover; }
 
@@ -75,7 +75,7 @@
         }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%); }
         .hero-info { position: relative; z-index: 5; padding: 40px; width: 100%; }
-        .hero-title-img { font-size: 3.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 12px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); }
+        .hero-title-img { font-size: 3rem; font-weight: 900; line-height: 1.1; margin-bottom: 12px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); }
         .hero-meta { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; color: #e5e5e5; margin-bottom: 20px; font-weight: 600; }
         .age-badge { border: 1px solid rgba(255,255,255,0.6); padding: 0 6px; border-radius: 2px; font-size: 0.75rem; }
         
@@ -86,19 +86,38 @@
 
         /* Content Rows */
         .sliders-section { padding: 10px 3%; }
-        .row-title { font-size: 1.15rem; font-weight: 800; margin: 20px 0 12px 0; color: #e5e5e5; }
+        .row-title { font-size: 1.15rem; font-weight: 800; margin: 25px 0 12px 0; color: #e5e5e5; }
         .cards-row { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
         .cards-row::-webkit-scrollbar { display: none; }
-        .media-card { flex: 0 0 calc(16.666% - 10px); min-width: 170px; background: var(--bg-card); border-radius: 6px; overflow: hidden; position: relative; cursor: pointer; transition: transform 0.3s ease; }
+        
+        .media-card {
+            flex: 0 0 calc(16.666% - 10px);
+            min-width: 170px;
+            background: var(--bg-card);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
         .media-card:hover { transform: scale(1.08); z-index: 10; }
-        .card-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+        .card-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: #222; }
+        .card-title-overlay {
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fff;
+        }
 
         /* Plyr Player Modal */
         .player-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.96);
             z-index: 99999;
             flex-direction: column;
             justify-content: center;
@@ -122,9 +141,7 @@
             background: #141414;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .close-modal-btn {
-            background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;
-        }
+        .close-modal-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
         .close-modal-btn:hover { color: var(--netflix-red); }
 
         .subtitle-upload-box {
@@ -135,15 +152,7 @@
             background: #1f1f1f;
             font-size: 0.85rem;
         }
-        .subtitle-upload-box input[type="file"] {
-            color: #aaa;
-            font-size: 0.8rem;
-        }
-
-        /* تخصيص الوان مشغل Plyr لتتوافق مع نتفلكس */
-        :root {
-            --plyr-color-main: var(--netflix-red);
-        }
+        .subtitle-upload-box input[type="file"] { color: #aaa; font-size: 0.8rem; }
 
         @media (max-width: 1024px) {
             .media-card { flex: 0 0 calc(25% - 10px); }
@@ -166,8 +175,6 @@
             </ul>
         </div>
         <div class="nav-left">
-            <i class="fas fa-search nav-icon"></i>
-            <i class="fas fa-bell nav-icon"></i>
             <span class="kids-badge">الأطفال</span>
             <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" class="avatar" alt="Profile">
         </div>
@@ -175,15 +182,15 @@
 
     <!-- Hero Section -->
     <div class="hero-container">
-        <div class="hero-card">
+        <div class="hero-card" id="heroBanner">
             <div class="hero-overlay"></div>
             <div class="hero-info">
-                <div class="hero-title-img">صائد الساحرات الأخيرة</div>
+                <div class="hero-title-img" id="heroTitle">جاري تحميل الفيلم...</div>
                 <div class="hero-meta">
-                    <span>أفلام</span> • <span>أكشن</span> • <span>2015</span> • <span>1 ساعة 46 دقيقة</span>
+                    <span>أفلام نتفلكس</span> • <span>عالية الدقة HD</span>
                     <span class="age-badge">+16</span>
                 </div>
-                <button class="btn-play-main" id="playHeroMovie"><i class="fas fa-play"></i> تشغيل الفيلم (Plyr)</button>
+                <button class="btn-play-main" id="playHeroBtn"><i class="fas fa-play"></i> تشغيل الفيلم (Plyr)</button>
             </div>
         </div>
     </div>
@@ -191,30 +198,30 @@
     <!-- Rows -->
     <div class="sliders-section">
         <div class="row-title">أفضل الاختيارات من أجلك اليوم</div>
-        <div class="cards-row" id="moviesRow"></div>
+        <div class="cards-row" id="rowGrid1"></div>
+
+        <div class="row-title">الأفلام الرائجة والمشهورة</div>
+        <div class="cards-row" id="rowGrid2"></div>
     </div>
 
     <!-- Plyr Video Modal -->
     <div class="player-modal" id="plyrModal">
         <div class="player-box-wrapper">
             <div class="player-top-bar">
-                <h3 id="movieTitleHeader" style="font-size: 1rem;">مشغل الفيديو</h3>
+                <h3 id="modalMovieTitle" style="font-size: 1rem;">مشغل الأفلام</h3>
                 <button class="close-modal-btn" id="closePlyrModal"><i class="fas fa-times"></i></button>
             </div>
             
-            <!-- شريط رفع وإضافة ملف ترجمة عربي خارجي VTT -->
             <div class="subtitle-upload-box">
                 <i class="fas fa-closed-captioning" style="color: var(--netflix-red);"></i>
                 <span>إضافة ترجمة عربية خارجية (.vtt):</span>
                 <input type="file" id="subFileInput" accept=".vtt">
             </div>
 
-            <!-- عنصر الفيديو الأساسي مع ملف ترجمة عربي افتراضي -->
             <video id="player" playsinline controls crossorigin>
+                <!-- فيديو تجريبي افتراضي جاهز للتشغيل الفوري مع مشغل Plyr -->
                 <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.mp4" type="video/mp4" />
-                
-                <!-- ملف الترجمة العربية الافتراضي (يمكنك استبداله برابط ملف vtt عربي الخاص بك) -->
-                <track kind="captions" label="العربية (افتراضي)" srclang="ar" src="" default />
+                <track kind="captions" label="العربية" srclang="ar" src="" default />
             </video>
         </div>
     </div>
@@ -223,38 +230,96 @@
     <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script>
 
     <script>
+        const API_KEY = '4b93e22787e9bcf9d672b62daaedfceb';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+
         // تهيئة مشغل Plyr
         const playerInstance = new Plyr('#player', {
             captions: { active: true, update: true, language: 'ar' }
         });
 
         const plyrModal = document.getElementById('plyrModal');
-        const playHeroMovie = document.getElementById('playHeroMovie');
         const closePlyrModal = document.getElementById('closePlyrModal');
         const subFileInput = document.getElementById('subFileInput');
 
-        // فتح المشغل عند الضغط على زر التشغيل
-        playHeroMovie.addEventListener('click', () => {
+        // دالة لإنشاء غلاف بديل SVG متناسق في حال تعذر تحميل الصورة الأصلية
+        function createFallback(title) {
+            const clean = (title || 'فيلم').replace(/[\'<">]/g, '');
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="281" viewBox="0 0 500 281"><rect width="500" height="281" fill="#1f1f1f"/><circle cx="250" cy="120" r="40" fill="#E50914" opacity="0.4"/><polygon points="238,105 275,120 238,135" fill="#fff"/><text x="250" y="210" font-family="Cairo" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">${clean.substring(0, 22)}</text></svg>`;
+            return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+        }
+
+        // جلب الأفلام الحقيقية من TMDB وعرضها في الصفوف
+        async function fetchAndRenderMovies() {
+            try {
+                const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ar-SA&sort_by=popularity.desc`);
+                const data = await res.json();
+                
+                if (data.results && data.results.length > 0) {
+                    // تعيين أول فيلم كبنر رئيسي بالصورة الخلفية العريضة
+                    const topMovie = data.results[0];
+                    document.getElementById('heroTitle').textContent = topMovie.title || topMovie.name;
+                    if (topMovie.backdrop_path) {
+                        document.getElementById('heroBanner').style.backgroundImage = `url('https://image.tmdb.org/t/p/original${topMovie.backdrop_path}')`;
+                    }
+
+                    // تعبئة صفوف الأفلام
+                    fillRow('rowGrid1', data.results.slice(1, 11));
+                    fillRow('rowGrid2', data.results.slice(11, 20));
+                }
+            } catch (err) {
+                console.error("خطأ في جلب أفلام TMDB", err);
+            }
+        }
+
+        function fillRow(containerId, movies) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            movies.forEach(movie => {
+                const title = movie.title || movie.name || 'فيلم';
+                const fallback = createFallback(title);
+                const thumb = movie.backdrop_path ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` : fallback;
+
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.innerHTML = `
+                    <img src="${thumb}" class="card-thumb" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='${fallback}';">
+                    <div class="card-title-overlay">${title}</div>
+                `;
+
+                card.addEventListener('click', () => {
+                    document.getElementById('modalMovieTitle').textContent = title;
+                    plyrModal.style.display = 'flex';
+                    playerInstance.play();
+                });
+
+                container.appendChild(card);
+            });
+        }
+
+        // تشغيل زر الهيرو
+        document.getElementById('playHeroBtn').addEventListener('click', () => {
+            document.getElementById('modalMovieTitle').textContent = document.getElementById('heroTitle').textContent;
             plyrModal.style.display = 'flex';
             playerInstance.play();
         });
 
-        // إغلاق المشغل وإيقاف الفيديو
+        // إغلاق المشغل
         closePlyrModal.addEventListener('click', () => {
             playerInstance.pause();
             plyrModal.style.display = 'none';
         });
 
-        // ميزة إضافة ملف ترجمة عربي (.vtt) سحب وافلات أو تصفح من جهازك مباشرة
+        // ميزة رفع ملف الترجمة العربية بصيغة .vtt
         subFileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const subURL = URL.createObjectURL(file);
                 const videoEl = document.getElementById('player');
                 
-                // إزالة أي تراك سابق وإضافة تراك الترجمة العربية الجديد
-                const existingTrack = videoEl.querySelector('track');
-                if (existingTrack) existingTrack.remove();
+                const oldTrack = videoEl.querySelector('track');
+                if (oldTrack) oldTrack.remove();
 
                 const newTrack = document.createElement('track');
                 newTrack.kind = 'captions';
@@ -264,31 +329,13 @@
                 newTrack.default = true;
 
                 videoEl.appendChild(newTrack);
-                playerInstance.restart(); // إعادة تحميل المشغل لتفعيل الترجمة الجديدة
-                alert('تم تحميل وتفعيل ملف الترجمة العربية بنجاح!');
+                playerInstance.restart();
+                alert('تم تفعيل الترجمة العربية بنجاح في المشغل!');
             }
         });
 
-        // تعبئة بعض الأفلام التجريبية في الصفوف
-        const sampleMovies = [
-            "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=500",
-            "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=500",
-            "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=500",
-            "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=500",
-            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500"
-        ];
-
-        const rowContainer = document.getElementById('moviesRow');
-        sampleMovies.forEach(img => {
-            const card = document.createElement('div');
-            card.className = 'media-card';
-            card.innerHTML = `<img src="${img}" class="card-thumb" alt="Movie">`;
-            card.addEventListener('click', () => {
-                plyrModal.style.display = 'flex';
-                playerInstance.play();
-            });
-            rowContainer.appendChild(card);
-        });
+        // بدء الجلب عند فتح الصفحة
+        fetchAndRenderMovies();
     </script>
 </body>
 </html>
