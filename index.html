@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NETFLIX - نتفلكس سينما</title>
+    <title>Netflix - الواجهة الرئيسية</title>
     
-    <!-- FontAwesome icons & Cairo font -->
+    <!-- FontAwesome & Google Fonts (Cairo) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --netflix-red: #E50914;
-            --netflix-dark-red: #B9090B;
-            --bg-black: #141414;
-            --card-bg: #181818;
-            --text-white: #FFFFFF;
-            --text-gray: #AAAAAA;
-            --gold: #FFD700;
+            --bg-dark: #111111;
+            --bg-card: #181818;
+            --text-white: #ffffff;
+            --text-gray: #a3a3a3;
+            --pill-bg: rgba(255, 255, 255, 0.2);
         }
 
         * {
@@ -29,654 +28,436 @@
         }
 
         body {
-            background-color: var(--bg-black);
+            background-color: var(--bg-dark);
             color: var(--text-white);
             overflow-x: hidden;
-            min-height: 100vh;
+            padding-bottom: 50px;
         }
 
-        /* Navbar Style */
+        /* --- 1. Top Navigation Bar --- */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 4%;
-            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(20,20,20,0) 100%);
+            padding: 18px 3%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(17,17,17,0) 100%);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            transition: background 0.3s ease;
         }
 
-        header.scrolled {
-            background: #141414;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .brand-logo {
-            font-size: 2.1rem;
-            font-weight: 900;
-            color: var(--netflix-red);
-            text-decoration: none;
-            letter-spacing: 1px;
+        .nav-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 25px;
         }
 
-        .search-container {
-            position: relative;
-            width: 280px;
+        .logo {
+            color: var(--netflix-red);
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-decoration: none;
         }
 
-        .search-container input {
-            width: 100%;
-            padding: 9px 38px 9px 15px;
-            border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            background: rgba(0, 0, 0, 0.75);
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 16px;
+        }
+
+        .nav-links a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a.active {
             color: #fff;
-            outline: none;
-            font-size: 0.88rem;
-            transition: border-color 0.3s;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
         }
 
-        .search-container input:focus {
-            border-color: var(--netflix-red);
+        .nav-links a:hover {
+            color: #b3b3b3;
         }
 
-        .search-container i {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-gray);
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
         }
 
-        /* Hero Banner Section */
-        .hero-banner {
+        .nav-icon {
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .kids-badge {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .avatar-box {
+            display: flex;
+            gap: 4px;
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        /* --- 2. Main Hero Card (شكل الشاشة الرئيسية) --- */
+        .hero-container {
+            padding: 80px 3% 20px;
+        }
+
+        .hero-card {
             position: relative;
             width: 100%;
-            height: 75vh;
-            min-height: 500px;
-            background-size: cover;
-            background-position: center top;
+            height: 68vh;
+            min-height: 440px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1600') center/cover no-repeat;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             display: flex;
             align-items: flex-end;
-            padding: 0 4% 80px;
         }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(0deg, var(--bg-black) 5%, rgba(20,20,20,0.3) 50%, rgba(0,0,0,0.8) 100%);
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%);
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 650px;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: var(--netflix-red);
+        .sound-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.3);
             color: #fff;
-            padding: 3px 10px;
-            font-weight: 800;
-            font-size: 0.75rem;
-            border-radius: 3px;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
         }
 
-        .hero-title {
-            font-size: 2.8rem;
+        .hero-info {
+            position: relative;
+            z-index: 5;
+            padding: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .hero-details {
+            max-width: 550px;
+        }
+
+        .hero-title-img {
+            font-size: 3.2rem;
             font-weight: 900;
-            line-height: 1.2;
+            line-height: 1.1;
             margin-bottom: 12px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            letter-spacing: -1px;
         }
 
-        .hero-desc {
-            font-size: 0.95rem;
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
             color: #e5e5e5;
-            line-height: 1.6;
-            margin-bottom: 22px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
-        .hero-btns {
+        .age-badge {
+            border: 1px solid rgba(255,255,255,0.6);
+            padding: 0 6px;
+            border-radius: 2px;
+            font-size: 0.75rem;
+        }
+
+        .hero-actions {
             display: flex;
             gap: 12px;
         }
 
-        .btn-play {
-            background: var(--netflix-red);
-            color: #fff;
+        .btn-play-main {
+            background: #ffffff;
+            color: #000000;
             border: none;
-            padding: 10px 24px;
-            font-size: 1rem;
+            padding: 8px 26px;
+            font-size: 0.95rem;
             font-weight: 800;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: background 0.2s, transform 0.2s;
+            gap: 8px;
+            transition: transform 0.2s, background 0.2s;
         }
 
-        .btn-play:hover {
-            background: var(--netflix-dark-red);
+        .btn-play-main:hover {
+            background: #e6e6e6;
             transform: scale(1.03);
         }
 
-        /* Filter Genres Bar */
-        .categories-nav {
+        .btn-info-main {
+            background: rgba(109, 109, 110, 0.7);
+            color: #ffffff;
+            border: none;
+            padding: 8px 22px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: background 0.2s;
+        }
+
+        .btn-info-main:hover {
+            background: rgba(109, 109, 110, 0.4);
+        }
+
+        .hero-footer-tags {
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+        }
+
+        .tag-pill {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tag-pill i { color: var(--netflix-red); }
+
+        /* --- 3. Content Sliders Section --- */
+        .sliders-section {
+            padding: 10px 3%;
+        }
+
+        .row-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin: 20px 0 12px 0;
+            color: #e5e5e5;
+        }
+
+        .cards-row {
             display: flex;
             gap: 12px;
-            padding: 20px 4% 10px;
             overflow-x: auto;
+            padding-bottom: 10px;
             scrollbar-width: none;
         }
 
-        .categories-nav::-webkit-scrollbar { display: none; }
+        .cards-row::-webkit-scrollbar { display: none; }
 
-        .cat-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.15);
-            padding: 6px 18px;
-            border-radius: 20px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.3s;
-        }
-
-        .cat-btn.active, .cat-btn:hover {
-            background: var(--netflix-red);
-            border-color: var(--netflix-red);
-        }
-
-        /* Movies Content Grid */
-        .main-content {
-            padding: 20px 4% 60px;
-        }
-
-        .section-header {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-right: 4px solid var(--netflix-red);
-            padding-right: 12px;
-        }
-
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
-            gap: 18px;
-        }
-
-        .movie-card {
-            background: var(--card-bg);
+        .media-card {
+            flex: 0 0 calc(16.666% - 10px);
+            min-width: 170px;
+            background: var(--bg-card);
             border-radius: 6px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, z-index 0.3s ease;
         }
 
-        .movie-card:hover {
-            transform: scale(1.06);
-            z-index: 20;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        .media-card:hover {
+            transform: scale(1.08);
+            z-index: 100;
         }
 
-        .poster-box {
-            position: relative;
+        .card-thumb {
             width: 100%;
-            padding-top: 150%;
-            background: #222;
-        }
-
-        .poster-box img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            aspect-ratio: 16 / 9;
             object-fit: cover;
-        }
-
-        .badge-rating {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(0,0,0,0.85);
-            color: var(--gold);
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            backdrop-filter: blur(4px);
-        }
-
-        .hover-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .hover-overlay i {
-            font-size: 3.2rem;
-            color: var(--netflix-red);
-            filter: drop-shadow(0 0 10px rgba(229,9,20,0.6));
-        }
-
-        .movie-card:hover .hover-overlay {
-            opacity: 1;
-        }
-
-        .card-details {
-            padding: 10px 12px;
-        }
-
-        .card-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.78rem;
-            color: var(--text-gray);
-            margin-top: 5px;
-        }
-
-        .quality-tag {
-            border: 1px solid var(--netflix-red);
-            color: var(--netflix-red);
-            font-size: 0.65rem;
-            padding: 0px 4px;
-            border-radius: 2px;
-            font-weight: 800;
-        }
-
-        /* Netflix Style Player Modal */
-        .modal-player {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.96);
-            z-index: 99999;
-        }
-
-        .player-wrapper {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .player-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: #000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .close-btn:hover { color: var(--netflix-red); }
-
-        .servers-group {
-            display: flex;
-            gap: 8px;
-        }
-
-        .srv-btn {
-            background: #222;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 6px 14px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .srv-btn.active, .srv-btn:hover {
-            background: var(--netflix-red);
-            border-color: var(--netflix-red);
-        }
-
-        .iframe-container {
-            flex-grow: 1;
-            width: 100%;
-            background: #000;
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .btn-loadmore {
             display: block;
-            margin: 40px auto;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 3px;
+            background: #444;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--netflix-red);
+        }
+
+        .card-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
             background: var(--netflix-red);
             color: #fff;
-            border: none;
-            padding: 12px 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 2px;
         }
 
-        .btn-loadmore:hover {
-            background: var(--netflix-dark-red);
+        /* responsive adjustment */
+        @media (max-width: 1024px) {
+            .media-card { flex: 0 0 calc(25% - 10px); }
+            .nav-links { display: none; }
         }
-
-        .spinner-box {
-            text-align: center;
-            padding: 80px 20px;
-            font-size: 1.2rem;
-            color: var(--text-gray);
-            grid-column: 1 / -1;
+        @media (max-width: 600px) {
+            .media-card { flex: 0 0 calc(45% - 10px); }
+            .hero-title-img { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <header id="navbar">
-        <a href="#" class="brand-logo"><i class="fas fa-play"></i> NETFLIX</a>
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="ابحث عن فيلم...">
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-right">
+            <a href="#" class="logo">NETFLIX</a>
+            <ul class="nav-links">
+                <li><a href="#" class="active">الصفحة الرئيسية</a></li>
+                <li><a href="#">مسلسلات وبرامج</a></li>
+                <li><a href="#">الأفلام</a></li>
+                <li><a href="#">ألعاب</a></li>
+                <li><a href="#">الجديد والمشهور</a></li>
+                <li><a href="#">مساحتي على Netflix</a></li>
+                <li><a href="#">استعراض حسب اللغة</a></li>
+            </ul>
+        </div>
+        <div class="nav-left">
+            <i class="fas fa-search nav-icon"></i>
+            <i class="fas fa-bell nav-icon"></i>
+            <span class="kids-badge">الأطفال</span>
+            <div class="avatar-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" class="avatar" alt="Profile">
+            </div>
         </div>
     </header>
 
-    <!-- Hero Banner -->
-    <div class="hero-banner" id="heroBanner">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <span class="hero-badge">الأكثر مشاهدة</span>
-            <h1 class="hero-title" id="heroTitle">جاري تحميل الفيلم...</h1>
-            <p class="hero-desc" id="heroDesc">تفاصيل الفيلم ستظهر هنا عند تحميل الصفحة...</p>
-            <div class="hero-btns">
-                <button class="btn-play" id="heroPlayBtn"><i class="fas fa-play"></i> مشاهدة الآن</button>
-            </div>
-        </div>
-    </div>
+    <!-- Hero Card Banner -->
+    <div class="hero-container">
+        <div class="hero-card" id="heroCard">
+            <div class="hero-overlay"></div>
+            <button class="sound-btn"><i class="fas fa-volume-mute"></i></button>
 
-    <!-- Genres Filter -->
-    <div class="categories-nav" id="categoriesNav">
-        <button class="cat-btn active" data-id="all">الكل</button>
-        <button class="cat-btn" data-id="28">أكشن</button>
-        <button class="cat-btn" data-id="35">كوميديا</button>
-        <button class="cat-btn" data-id="18">دراما</button>
-        <button class="cat-btn" data-id="27">رعب</button>
-        <button class="cat-btn" data-id="878">خيال علمي</button>
-        <button class="cat-btn" data-id="10749">رومانسية</button>
-    </div>
-
-    <div class="main-content">
-        <div class="section-header" id="sectionHeader">أحدث الأفلام المضافة</div>
-        <div class="movies-grid" id="moviesGrid">
-            <div class="spinner-box"><i class="fas fa-spinner fa-spin"></i> جاري تحميل المكتبة...</div>
-        </div>
-        <button class="btn-loadmore" id="loadMoreBtn">عرض المزيد</button>
-    </div>
-
-    <!-- Player Modal -->
-    <div class="modal-player" id="playerModal">
-        <div class="player-wrapper">
-            <div class="player-bar">
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <button class="close-btn" id="closePlayer"><i class="fas fa-arrow-right"></i></button>
-                    <h3 id="playerTitle" style="font-size:1.1rem; font-weight:800;">اسم الفيلم</h3>
-                </div>
-                <div class="servers-group">
-                    <button class="srv-btn active" onclick="changeServer(1)">سيرفر 1</button>
-                    <button class="srv-btn" onclick="changeServer(2)">سيرفر 2</button>
-                    <button class="srv-btn" onclick="changeServer(3)">سيرفر 3</button>
+            <div class="hero-info">
+                <div class="hero-details">
+                    <div class="hero-title-img">صائد الساحرات الأخيرة</div>
+                    <div class="hero-meta">
+                        <span>أفلام</span> • 
+                        <span>أكشن</span> • 
+                        <span>2015</span> • 
+                        <span>1 ساعة 46 دقيقة</span>
+                        <span class="age-badge">+16</span>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn-play-main"><i class="fas fa-play"></i> عرض</button>
+                        <button class="btn-info-main">المزيد من المعلومات</button>
+                    </div>
                 </div>
             </div>
-            <div class="iframe-container">
-                <iframe id="videoIframe" src="" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>
+
+            <div class="hero-footer-tags">
+                <div class="tag-pill"><i class="fas fa-bookmark"></i> أُضيف حديثاً</div>
+                <div class="tag-pill"><i class="fas fa-tv"></i> من بطولة "فين ديزل"</div>
             </div>
         </div>
+    </div>
+
+    <!-- Movie Rows Section -->
+    <div class="sliders-section">
+        
+        <!-- Row 1 -->
+        <div class="row-title">متابعة المشاهدة لـ سجاد</div>
+        <div class="cards-row" id="row1"></div>
+
+        <!-- Row 2 -->
+        <div class="row-title">أفضل الاختيارات من أجلك اليوم</div>
+        <div class="cards-row" id="row2"></div>
+
+        <!-- Row 3 -->
+        <div class="row-title">نظن أنك ستحب ما يلي</div>
+        <div class="cards-row" id="row3"></div>
+
     </div>
 
     <script>
-        const API_KEY = '4b93e22787e9bcf9d672b62daaedfceb';
-        const BASE_URL = 'https://api.themoviedb.org/3';
+        // عينة من البيانات المباشرة للبطاقات
+        const itemsRow1 = [
+            { img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=500", progress: 60 },
+            { img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=500", progress: 85 },
+            { img: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=500", progress: 30 },
+            { img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=500", progress: 90 },
+            { img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500", progress: 10 },
+            { img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=500", progress: 45 }
+        ];
 
-        let currentPage = 1;
-        let currentEndpoint = '/discover/movie?sort_by=popularity.desc';
-        let activeTmdbId = null;
-        let activeImdbId = null;
-        let topMovieData = null;
+        const itemsRow2 = [
+            { img: "https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=500", badge: "أُضيف حديثاً" },
+            { img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500", badge: "" },
+            { img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=500", badge: "موسم جديد" },
+            { img: "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=500", badge: "" },
+            { img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=500", badge: "أُضيف حديثاً" },
+            { img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=500", badge: "" }
+        ];
 
-        const moviesGrid = document.getElementById('moviesGrid');
-        const searchInput = document.getElementById('searchInput');
-        const categoriesNav = document.getElementById('categoriesNav');
-        const sectionHeader = document.getElementById('sectionHeader');
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const playerModal = document.getElementById('playerModal');
-        const videoIframe = document.getElementById('videoIframe');
-        const playerTitle = document.getElementById('playerTitle');
-        const closePlayer = document.getElementById('closePlayer');
-        const navbar = document.getElementById('navbar');
-
-        // Scroll navbar style
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // توليد غلاف SVG محلي نقي في حال عدم ظهور صورة TMDB
-        function createFallbackPoster(title) {
-            const cleanTitle = (title || 'فيلم سينمائي').replace(/[\'<">]/g, '');
-            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="750" viewBox="0 0 500 750"><rect width="500" height="750" fill="#181818"/><circle cx="250" cy="300" r="75" fill="#E50914" opacity="0.25"/><polygon points="230,265 285,300 230,335" fill="#E50914"/><text x="250" y="470" font-family="Cairo, sans-serif" font-size="26" font-weight="bold" fill="#ffffff" text-anchor="middle">${cleanTitle.length > 18 ? cleanTitle.substring(0, 18) + '...' : cleanTitle}</text><text x="250" y="515" font-family="Cairo" font-size="16" fill="#FFD700" text-anchor="middle">NETFLIX CINEMA</text></svg>`;
-            return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-        }
-
-        // جلب الأفلام
-        async function loadMovies(endpoint, page = 1, append = false) {
-            try {
-                if (!append) moviesGrid.innerHTML = '<div class="spinner-box"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
-                
-                const url = `${BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${API_KEY}&language=ar-SA&page=${page}`;
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (data.results && data.results.length > 0) {
-                    if (page === 1 && !append && endpoint.includes('discover')) {
-                        setupHeroBanner(data.results[0]);
-                    }
-                    renderCards(data.results, append);
-                } else if (!append) {
-                    moviesGrid.innerHTML = '<div class="spinner-box">عذراً، لم نتمكن من العثور على أية نتائج.</div>';
-                }
-            } catch (err) {
-                if (!append) moviesGrid.innerHTML = '<div class="spinner-box">تعذر الاتصال بالخادم. يرجى المحاولة لاحقاً.</div>';
-            }
-        }
-
-        // إعداد الهيرو بنر الأعلى
-        function setupHeroBanner(movie) {
-            topMovieData = movie;
-            const banner = document.getElementById('heroBanner');
-            const title = document.getElementById('heroTitle');
-            const desc = document.getElementById('heroDesc');
-            
-            const backdropPath = movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1200';
-            banner.style.backgroundImage = `url('${backdropPath}')`;
-            
-            title.textContent = movie.title || movie.name;
-            desc.textContent = movie.overview || 'استمتع بمشاهدة هذا الفيلم الرائع بدقة عالية على منصتنا.';
-        }
-
-        document.getElementById('heroPlayBtn').addEventListener('click', () => {
-            if (topMovieData) startPlayback(topMovieData);
-        });
-
-        // عرض كروت الأفلام
-        function renderCards(movies, append) {
-            if (!append) moviesGrid.innerHTML = '';
-
-            movies.forEach(movie => {
-                const title = movie.title || movie.name || 'فيلم سينمائي';
-                const fallbackImg = createFallbackPoster(title);
-                const posterImg = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : fallbackImg;
-
+        function populateRow(rowId, items, isProgress = false) {
+            const container = document.getElementById(rowId);
+            items.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'movie-card';
+                card.className = 'media-card';
                 card.innerHTML = `
-                    <div class="poster-box">
-                        <img src="${posterImg}" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImg}';">
-                        <div class="badge-rating"><i class="fas fa-star"></i> ${(movie.vote_average || 7.0).toFixed(1)}</div>
-                        <div class="hover-overlay"><i class="fas fa-play-circle"></i></div>
-                    </div>
-                    <div class="card-details">
-                        <div class="card-title" title="${title}">${title}</div>
-                        <div class="card-meta">
-                            <span>${(movie.release_date || '2024').split('-')[0]}</span>
-                            <span class="quality-tag">4K HD</span>
-                        </div>
-                    </div>
+                    <img src="${item.img}" class="card-thumb" alt="Media">
+                    ${isProgress ? `<div class="progress-bar-container"><div class="progress-bar" style="width: ${item.progress}%"></div></div>` : ''}
+                    ${item.badge ? `<div class="card-badge">${item.badge}</div>` : ''}
                 `;
-
-                card.addEventListener('click', () => startPlayback(movie));
-                moviesGrid.appendChild(card);
+                container.appendChild(card);
             });
         }
 
-        // بدء التشغيل وجلب IMDb ID المباشر
-        async function startPlayback(movie) {
-            activeTmdbId = movie.id;
-            playerTitle.textContent = movie.title || movie.name;
-
-            try {
-                const res = await fetch(`${BASE_URL}/movie/${movie.id}/external_ids?api_key=${API_KEY}`);
-                const data = await res.json();
-                activeImdbId = data.imdb_id || null;
-            } catch (e) {
-                activeImdbId = null;
-            }
-
-            changeServer(1);
-            playerModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        // التبديل بين السيرفرات
-        function changeServer(srvNum) {
-            document.querySelectorAll('.srv-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === (srvNum - 1));
-            });
-
-            const targetId = activeImdbId || activeTmdbId;
-
-            if (srvNum === 1) {
-                videoIframe.src = `https://vidsrc.cc/v2/embed/movie/${targetId}`;
-            } else if (srvNum === 2) {
-                videoIframe.src = `https://vidsrc.me/embed/movie/${targetId}`;
-            } else if (srvNum === 3) {
-                videoIframe.src = `https://autoembed.co/movie/tmdb/${activeTmdbId}`;
-            }
-        }
-
-        closePlayer.addEventListener('click', () => {
-            videoIframe.src = '';
-            playerModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-
-        // البحث التفاعلي
-        let searchTimer;
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimer);
-            const val = e.target.value.trim();
-
-            searchTimer = setTimeout(() => {
-                currentPage = 1;
-                if (val.length > 1) {
-                    currentEndpoint = `/search/movie?query=${encodeURIComponent(val)}`;
-                    sectionHeader.textContent = `نتائج البحث عن: ${val}`;
-                    loadMovies(currentEndpoint, 1);
-                } else if (val.length === 0) {
-                    currentEndpoint = '/discover/movie?sort_by=popularity.desc';
-                    sectionHeader.textContent = 'أحدث الأفلام المضافة';
-                    loadMovies(currentEndpoint, 1);
-                }
-            }, 400);
-        });
-
-        // التصفية حسب التصنيفات
-        categoriesNav.addEventListener('click', (e) => {
-            if (e.target.classList.contains('cat-btn')) {
-                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-
-                const genreId = e.target.getAttribute('data-id');
-                currentPage = 1;
-
-                if (genreId === 'all') {
-                    currentEndpoint = '/discover/movie?sort_by=popularity.desc';
-                    sectionHeader.textContent = 'أحدث الأفلام المضافة';
-                } else {
-                    currentEndpoint = `/discover/movie?with_genres=${genreId}&sort_by=popularity.desc`;
-                    sectionHeader.textContent = `أفلام قسم: ${e.target.textContent}`;
-                }
-                loadMovies(currentEndpoint, 1);
-            }
-        });
-
-        // زر التحميل المزدوج
-        loadMoreBtn.addEventListener('click', () => {
-            currentPage++;
-            loadMovies(currentEndpoint, currentPage, true);
-        });
-
-        // البدء عند أول فتح للموقع
-        loadMovies(currentEndpoint, 1);
+        populateRow('row1', itemsRow1, true);
+        populateRow('row2', itemsRow2, false);
+        populateRow('row3', itemsRow1, false);
     </script>
 </body>
 </html>
