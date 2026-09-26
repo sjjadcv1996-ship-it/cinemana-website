@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix - الواجهة الرئيسية</title>
+    <title>Netflix - نتفلكس سينما</title>
     
     <!-- FontAwesome & Google Fonts (Cairo) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,11 +12,11 @@
     <style>
         :root {
             --netflix-red: #E50914;
-            --bg-dark: #111111;
-            --bg-card: #181818;
+            --netflix-dark: #141414;
+            --card-bg: #1f1f1f;
             --text-white: #ffffff;
-            --text-gray: #a3a3a3;
-            --pill-bg: rgba(255, 255, 255, 0.2);
+            --text-gray: #aaaaaa;
+            --badge-bg: rgba(255, 255, 255, 0.2);
         }
 
         * {
@@ -28,10 +28,10 @@
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--netflix-dark);
             color: var(--text-white);
             overflow-x: hidden;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
         }
 
         /* --- 1. Top Navigation Bar --- */
@@ -39,12 +39,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 3%;
-            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(17,17,17,0) 100%);
+            padding: 16px 3%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0) 100%);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: #141414;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .nav-right {
@@ -55,32 +61,35 @@
 
         .logo {
             color: var(--netflix-red);
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 900;
             letter-spacing: 1px;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 16px;
+            gap: 14px;
         }
 
         .nav-links a {
             color: #e5e5e5;
             text-decoration: none;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 600;
             transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 20px;
         }
 
         .nav-links a.active {
             color: #fff;
             font-weight: 800;
             background: rgba(255, 255, 255, 0.15);
-            padding: 4px 12px;
-            border-radius: 20px;
         }
 
         .nav-links a:hover {
@@ -95,71 +104,104 @@
 
         .nav-icon {
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 0;
+            opacity: 0;
+            background: rgba(0,0,0,0.85);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .search-box.open .search-input {
+            width: 200px;
+            opacity: 1;
+            margin-right: 8px;
         }
 
         .kids-badge {
-            background: rgba(255,255,255,0.15);
+            background: var(--badge-bg);
             color: #fff;
-            padding: 2px 10px;
+            padding: 3px 12px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             font-weight: 700;
             cursor: pointer;
         }
 
-        .avatar-box {
-            display: flex;
-            gap: 4px;
-        }
-
         .avatar {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 4px;
             object-fit: cover;
+            cursor: pointer;
         }
 
-        /* --- 2. Main Hero Card (شكل الشاشة الرئيسية) --- */
+        /* --- 2. Main Hero Banner Section --- */
         .hero-container {
-            padding: 80px 3% 20px;
+            padding: 85px 3% 20px;
         }
 
         .hero-card {
             position: relative;
             width: 100%;
             height: 68vh;
-            min-height: 440px;
+            min-height: 460px;
             border-radius: 20px;
             overflow: hidden;
-            background: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1600') center/cover no-repeat;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            background-size: cover;
+            background-position: center top;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.85);
             display: flex;
             align-items: flex-end;
+            transition: background-image 0.5s ease;
         }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(0deg, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%);
+            background: linear-gradient(0deg, rgba(20,20,20,0.95) 8%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 100%);
         }
 
         .sound-btn {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.5);
+            top: 24px;
+            left: 24px;
+            background: rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.3);
             color: #fff;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .sound-btn:hover {
+            background: rgba(0,0,0,0.8);
         }
 
         .hero-info {
@@ -173,15 +215,15 @@
         }
 
         .hero-details {
-            max-width: 550px;
+            max-width: 600px;
         }
 
-        .hero-title-img {
+        .hero-title {
             font-size: 3.2rem;
             font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 12px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            line-height: 1.15;
+            margin-bottom: 14px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.9);
             letter-spacing: -1px;
         }
 
@@ -189,17 +231,18 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #e5e5e5;
-            margin-bottom: 20px;
-            font-weight: 600;
+            margin-bottom: 22px;
+            font-weight: 700;
         }
 
         .age-badge {
-            border: 1px solid rgba(255,255,255,0.6);
-            padding: 0 6px;
-            border-radius: 2px;
+            border: 1px solid rgba(255,255,255,0.7);
+            padding: 1px 6px;
+            border-radius: 3px;
             font-size: 0.75rem;
+            background: rgba(0,0,0,0.4);
         }
 
         .hero-actions {
@@ -211,14 +254,14 @@
             background: #ffffff;
             color: #000000;
             border: none;
-            padding: 8px 26px;
-            font-size: 0.95rem;
+            padding: 10px 28px;
+            font-size: 1rem;
             font-weight: 800;
             border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: transform 0.2s, background 0.2s;
         }
 
@@ -231,8 +274,8 @@
             background: rgba(109, 109, 110, 0.7);
             color: #ffffff;
             border: none;
-            padding: 8px 22px;
-            font-size: 0.95rem;
+            padding: 10px 24px;
+            font-size: 1rem;
             font-weight: 700;
             border-radius: 6px;
             cursor: pointer;
@@ -249,72 +292,128 @@
             gap: 10px;
             z-index: 5;
             position: absolute;
-            bottom: 20px;
+            bottom: 24px;
             left: 30px;
         }
 
         .tag-pill {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.65);
+            border: 1px solid rgba(255,255,255,0.2);
             padding: 4px 12px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             display: flex;
             align-items: center;
             gap: 6px;
+            font-weight: 600;
         }
 
         .tag-pill i { color: var(--netflix-red); }
 
-        /* --- 3. Content Sliders Section --- */
+        /* --- 3. Movie Rows Section --- */
         .sliders-section {
             padding: 10px 3%;
         }
 
         .row-title {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            margin: 20px 0 12px 0;
+            margin: 24px 0 14px 0;
             color: #e5e5e5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .cards-row {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             overflow-x: auto;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
             scrollbar-width: none;
         }
 
         .cards-row::-webkit-scrollbar { display: none; }
 
         .media-card {
-            flex: 0 0 calc(16.666% - 10px);
-            min-width: 170px;
-            background: var(--bg-card);
-            border-radius: 6px;
+            flex: 0 0 calc(16.666% - 12px);
+            min-width: 180px;
+            background: var(--card-bg);
+            border-radius: 8px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            transition: transform 0.3s ease, z-index 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .media-card:hover {
-            transform: scale(1.08);
-            z-index: 100;
+            transform: scale(1.06);
+            z-index: 50;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+        }
+
+        .card-thumb-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #222;
+            overflow: hidden;
         }
 
         .card-thumb {
             width: 100%;
-            aspect-ratio: 16 / 9;
+            height: 100%;
             object-fit: cover;
             display: block;
+        }
+
+        .hover-play-icon {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .hover-play-icon i {
+            font-size: 2.5rem;
+            color: var(--netflix-red);
+        }
+
+        .media-card:hover .hover-play-icon {
+            opacity: 1;
+        }
+
+        .card-title-bar {
+            padding: 8px 10px;
+            background: #181818;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        .card-rating {
+            font-size: 0.72rem;
+            color: #ffc107;
+            font-weight: 700;
         }
 
         .progress-bar-container {
             width: 100%;
             height: 3px;
-            background: #444;
+            background: #333;
             position: absolute;
             bottom: 0;
             left: 0;
@@ -327,63 +426,145 @@
 
         .card-badge {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            top: 6px;
+            right: 6px;
             background: var(--netflix-red);
             color: #fff;
             font-size: 0.65rem;
             font-weight: 800;
-            padding: 1px 5px;
-            border-radius: 2px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6);
         }
 
-        /* responsive adjustment */
+        /* --- 4. Video Player Modal --- */
+        .player-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.96);
+            z-index: 9999;
+        }
+
+        .player-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 28px;
+            background: #000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .close-player-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-player-btn:hover {
+            color: var(--netflix-red);
+        }
+
+        .server-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .srv-btn {
+            background: #222;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .srv-btn.active, .srv-btn:hover {
+            background: var(--netflix-red);
+            border-color: var(--netflix-red);
+        }
+
+        .iframe-box {
+            flex-grow: 1;
+            width: 100%;
+            background: #000;
+        }
+
+        .iframe-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            width: 100%;
+        }
+
+        /* Responsive */
         @media (max-width: 1024px) {
-            .media-card { flex: 0 0 calc(25% - 10px); }
+            .media-card { flex: 0 0 calc(25% - 12px); }
             .nav-links { display: none; }
         }
-        @media (max-width: 600px) {
-            .media-card { flex: 0 0 calc(45% - 10px); }
-            .hero-title-img { font-size: 2rem; }
+        @media (max-width: 650px) {
+            .media-card { flex: 0 0 calc(46% - 12px); }
+            .hero-title { font-size: 2rem; }
+            .hero-container { padding-top: 75px; }
+            .hero-info { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <header>
+    <header id="navbar">
         <div class="nav-right">
-            <a href="#" class="logo">NETFLIX</a>
+            <a href="#" class="logo"><i class="fas fa-play"></i> NETFLIX</a>
             <ul class="nav-links">
-                <li><a href="#" class="active">الصفحة الرئيسية</a></li>
-                <li><a href="#">مسلسلات وبرامج</a></li>
-                <li><a href="#">الأفلام</a></li>
-                <li><a href="#">ألعاب</a></li>
-                <li><a href="#">الجديد والمشهور</a></li>
+                <li><a href="#" class="active" onclick="filterCategory('all', this)">الصفحة الرئيسية</a></li>
+                <li><a href="#" onclick="filterCategory('tv', this)">مسلسلات وبرامج</a></li>
+                <li><a href="#" onclick="filterCategory('movie', this)">الأفلام</a></li>
+                <li><a href="#" onclick="filterCategory('action', this)">أكشن</a></li>
+                <li><a href="#" onclick="filterCategory('popular', this)">الجديد والمشهور</a></li>
                 <li><a href="#">مساحتي على Netflix</a></li>
                 <li><a href="#">استعراض حسب اللغة</a></li>
             </ul>
         </div>
         <div class="nav-left">
-            <i class="fas fa-search nav-icon"></i>
+            <div class="search-box" id="searchBox">
+                <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن فيلم أو مسلسل...">
+                <i class="fas fa-search nav-icon" id="searchToggle"></i>
+            </div>
             <i class="fas fa-bell nav-icon"></i>
             <span class="kids-badge">الأطفال</span>
-            <div class="avatar-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" class="avatar" alt="Profile">
-            </div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" class="avatar" alt="Profile">
         </div>
     </header>
 
-    <!-- Hero Card Banner -->
     <div class="hero-container">
         <div class="hero-card" id="heroCard">
             <div class="hero-overlay"></div>
-            <button class="sound-btn"><i class="fas fa-volume-mute"></i></button>
+            <button class="sound-btn" id="muteToggle"><i class="fas fa-volume-mute"></i></button>
 
             <div class="hero-info">
                 <div class="hero-details">
-                    <div class="hero-title-img">صائد الساحرات الأخيرة</div>
-                    <div class="hero-meta">
+                    <h1 class="hero-title" id="heroTitle">صائد الساحرات الأخيرة</h1>
+                    <div class="hero-meta" id="heroMeta">
                         <span>أفلام</span> • 
                         <span>أكشن</span> • 
                         <span>2015</span> • 
@@ -391,8 +572,8 @@
                         <span class="age-badge">+16</span>
                     </div>
                     <div class="hero-actions">
-                        <button class="btn-play-main"><i class="fas fa-play"></i> عرض</button>
-                        <button class="btn-info-main">المزيد من المعلومات</button>
+                        <button class="btn-play-main" id="heroPlayBtn"><i class="fas fa-play"></i> عرض</button>
+                        <button class="btn-info-main" id="heroInfoBtn"><i class="fas fa-info-circle"></i> المزيد من المعلومات</button>
                     </div>
                 </div>
             </div>
@@ -404,60 +585,243 @@
         </div>
     </div>
 
-    <!-- Movie Rows Section -->
     <div class="sliders-section">
-        
-        <!-- Row 1 -->
-        <div class="row-title">متابعة المشاهدة لـ سجاد</div>
-        <div class="cards-row" id="row1"></div>
+        <div class="row-title" id="titleRow1"><i class="fas fa-history" style="color:var(--netflix-red);"></i> متابعة المشاهدة لـ سجاد</div>
+        <div class="cards-row" id="row1">
+            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري تحميل الأفلام...</div>
+        </div>
 
-        <!-- Row 2 -->
-        <div class="row-title">أفضل الاختيارات من أجلك اليوم</div>
-        <div class="cards-row" id="row2"></div>
+        <div class="row-title" id="titleRow2"><i class="fas fa-fire" style="color:var(--netflix-red);"></i> أفضل الاختيارات من أجلك اليوم</div>
+        <div class="cards-row" id="row2">
+            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري تحميل الأفلام...</div>
+        </div>
 
-        <!-- Row 3 -->
-        <div class="row-title">نظن أنك ستحب ما يلي</div>
-        <div class="cards-row" id="row3"></div>
+        <div class="row-title" id="titleRow3"><i class="fas fa-thumbs-up" style="color:var(--netflix-red);"></i> نظن أنك ستحب ما يلي</div>
+        <div class="cards-row" id="row3">
+            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري تحميل الأفلام...</div>
+        </div>
+    </div>
 
+    <div class="player-modal" id="playerModal">
+        <div class="player-content">
+            <div class="player-header">
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <button class="close-player-btn" id="closePlayerBtn"><i class="fas fa-arrow-right"></i></button>
+                    <h3 id="playerMovieTitle" style="font-size:1.1rem; font-weight:800;">اسم الفيلم</h3>
+                </div>
+                <div class="server-selector">
+                    <button class="srv-btn active" onclick="switchServer(1)">سيرفر 1 (VidSrc CC)</button>
+                    <button class="srv-btn" onclick="switchServer(2)">سيرفر 2 (VidSrc ME)</button>
+                    <button class="srv-btn" onclick="switchServer(3)">سيرفر 3 (AutoEmbed)</button>
+                </div>
+            </div>
+            <div class="iframe-box">
+                <iframe id="videoIframe" src="" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+        </div>
     </div>
 
     <script>
-        // عينة من البيانات المباشرة للبطاقات
-        const itemsRow1 = [
-            { img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=500", progress: 60 },
-            { img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=500", progress: 85 },
-            { img: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=500", progress: 30 },
-            { img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=500", progress: 90 },
-            { img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500", progress: 10 },
-            { img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=500", progress: 45 }
-        ];
+        const API_KEY = '4b93e22787e9bcf9d672b62daaedfceb';
+        const BASE_URL = 'https://api.themoviedb.org/3';
 
-        const itemsRow2 = [
-            { img: "https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=500", badge: "أُضيف حديثاً" },
-            { img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500", badge: "" },
-            { img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=500", badge: "موسم جديد" },
-            { img: "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?q=80&w=500", badge: "" },
-            { img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=500", badge: "أُضيف حديثاً" },
-            { img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=500", badge: "" }
-        ];
+        let currentActiveMovie = null;
+        let activeTmdbId = 278927; // "The Last Witch Hunter" by default
+        let activeImdbId = "tt1618442";
+        let isMuted = true;
 
-        function populateRow(rowId, items, isProgress = false) {
-            const container = document.getElementById(rowId);
-            items.forEach(item => {
+        const navbar = document.getElementById('navbar');
+        const searchBox = document.getElementById('searchBox');
+        const searchToggle = document.getElementById('searchToggle');
+        const searchInput = document.getElementById('searchInput');
+        const heroCard = document.getElementById('heroCard');
+        const heroTitle = document.getElementById('heroTitle');
+        const heroPlayBtn = document.getElementById('heroPlayBtn');
+        const muteToggle = document.getElementById('muteToggle');
+        const playerModal = document.getElementById('playerModal');
+        const videoIframe = document.getElementById('videoIframe');
+        const playerMovieTitle = document.getElementById('playerMovieTitle');
+        const closePlayerBtn = document.getElementById('closePlayerBtn');
+
+        // Scroll navbar effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Search bar toggle
+        searchToggle.addEventListener('click', () => {
+            searchBox.classList.toggle('open');
+            if (searchBox.classList.contains('open')) {
+                searchInput.focus();
+            }
+        });
+
+        // Generate reliable 16:9 SVG poster fallback
+        function createSvgPoster(title) {
+            const cleanTitle = (title || 'فيلم سينمائي').replace(/[\'<">]/g, '');
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="337" viewBox="0 0 600 337"><rect width="600" height="337" fill="#1f1f1f"/><circle cx="300" cy="140" r="45" fill="#E50914" opacity="0.25"/><polygon points="290,120 325,140 290,160" fill="#E50914"/><text x="300" y="220" font-family="Cairo, sans-serif" font-size="22" font-weight="bold" fill="#ffffff" text-anchor="middle">${cleanTitle.length > 22 ? cleanTitle.substring(0, 22) + '...' : cleanTitle}</text><text x="300" y="255" font-family="Cairo" font-size="14" fill="#ffc107" text-anchor="middle">NETFLIX CINEMA</text></svg>`;
+            return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+        }
+
+        async function fetchMoviesRow(endpoint, targetElementId, isProgress = false) {
+            const container = document.getElementById(targetElementId);
+            try {
+                const res = await fetch(`${BASE_URL}${endpoint}&api_key=${API_KEY}&language=ar-SA`);
+                const data = await res.json();
+
+                if (data.results && data.results.length > 0) {
+                    renderRowCards(container, data.results, isProgress);
+                } else {
+                    container.innerHTML = '<div class="loading-spinner">لا توجد محتويات متاحة.</div>';
+                }
+            } catch (err) {
+                container.innerHTML = '<div class="loading-spinner">تعذر جلب البيانات. حاول مرة أخرى.</div>';
+            }
+        }
+
+        function renderRowCards(container, movies, isProgress) {
+            container.innerHTML = '';
+            movies.forEach((movie, index) => {
+                const title = movie.title || movie.name || 'فيلم سينمائي';
+                const fallbackImg = createSvgPoster(title);
+                
+                // Backdrop image (16:9) is prioritized for Netflix horizontal rows
+                const backdropPath = movie.backdrop_path 
+                    ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` 
+                    : (movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : fallbackImg);
+
                 const card = document.createElement('div');
                 card.className = 'media-card';
                 card.innerHTML = `
-                    <img src="${item.img}" class="card-thumb" alt="Media">
-                    ${isProgress ? `<div class="progress-bar-container"><div class="progress-bar" style="width: ${item.progress}%"></div></div>` : ''}
-                    ${item.badge ? `<div class="card-badge">${item.badge}</div>` : ''}
+                    <div class="card-thumb-wrapper">
+                        <img src="${backdropPath}" class="card-thumb" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImg}';">
+                        <div class="hover-play-icon"><i class="fas fa-play-circle"></i></div>
+                        ${movie.vote_average > 7.8 ? `<div class="card-badge">شائع جداً</div>` : ''}
+                    </div>
+                    <div class="card-title-bar">
+                        <span class="card-name" title="${title}">${title}</span>
+                        <span class="card-rating"><i class="fas fa-star"></i> ${(movie.vote_average || 7.0).toFixed(1)}</span>
+                    </div>
+                    ${isProgress ? `<div class="progress-bar-container"><div class="progress-bar" style="width: ${(index * 17 + 25) % 100}%"></div></div>` : ''}
                 `;
+
+                card.addEventListener('click', () => playMovie(movie));
                 container.appendChild(card);
             });
         }
 
-        populateRow('row1', itemsRow1, true);
-        populateRow('row2', itemsRow2, false);
-        populateRow('row3', itemsRow1, false);
+        async function playMovie(movie) {
+            currentActiveMovie = movie;
+            activeTmdbId = movie.id;
+            playerMovieTitle.textContent = movie.title || movie.name;
+
+            try {
+                // Fetch IMDb ID for maximum streaming server compatibility
+                const extRes = await fetch(`${BASE_URL}/movie/${movie.id}/external_ids?api_key=${API_KEY}`);
+                const extData = await extRes.json();
+                activeImdbId = extData.imdb_id || null;
+            } catch (e) {
+                activeImdbId = null;
+            }
+
+            switchServer(1);
+            playerModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function switchServer(srvNum) {
+            document.querySelectorAll('.srv-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === (srvNum - 1));
+            });
+
+            const idToUse = activeImdbId || activeTmdbId;
+
+            if (srvNum === 1) {
+                videoIframe.src = `https://vidsrc.cc/v2/embed/movie/${idToUse}`;
+            } else if (srvNum === 2) {
+                videoIframe.src = `https://vidsrc.me/embed/movie/${idToUse}`;
+            } else if (srvNum === 3) {
+                videoIframe.src = `https://autoembed.co/movie/tmdb/${activeTmdbId}`;
+            }
+        }
+
+        closePlayerBtn.addEventListener('click', () => {
+            videoIframe.src = '';
+            playerModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Set Default Hero Movie (The Last Witch Hunter - صائد الساحرات الأخيرة)
+        async function initHeroBanner() {
+            try {
+                const res = await fetch(`${BASE_URL}/movie/278927?api_key=${API_KEY}&language=ar-SA`);
+                const data = await res.json();
+                
+                if (data && data.title) {
+                    currentActiveMovie = data;
+                    heroTitle.textContent = data.title;
+                    if (data.backdrop_path) {
+                        heroCard.style.backgroundImage = `url('https://image.tmdb.org/t/p/original${data.backdrop_path}')`;
+                    }
+                }
+            } catch (e) {
+                heroCard.style.backgroundImage = `url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1600')`;
+            }
+        }
+
+        heroPlayBtn.addEventListener('click', () => {
+            if (currentActiveMovie) {
+                playMovie(currentActiveMovie);
+            } else {
+                playMovie({ id: 278927, title: "صائد الساحرات الأخيرة" });
+            }
+        });
+
+        muteToggle.addEventListener('click', () => {
+            isMuted = !isMuted;
+            muteToggle.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+        });
+
+        // Search functionality
+        let searchTimer;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimer);
+            const query = e.target.value.trim();
+            if (query.length > 1) {
+                searchTimer = setTimeout(() => {
+                    document.getElementById('titleRow1').innerHTML = `<i class="fas fa-search" style="color:var(--netflix-red);"></i> نتائج البحث عن: ${query}`;
+                    fetchMoviesRow(`/search/movie?query=${encodeURIComponent(query)}`, 'row1');
+                }, 400);
+            }
+        });
+
+        // Filter Categories
+        function filterCategory(type, el) {
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            if (el) el.classList.add('active');
+
+            if (type === 'tv') {
+                document.getElementById('titleRow1').textContent = 'أحدث المسلسلات';
+                fetchMoviesRow('/discover/tv?sort_by=popularity.desc', 'row1');
+            } else if (type === 'action') {
+                document.getElementById('titleRow1').textContent = 'أفلام الأكشن والإثارة';
+                fetchMoviesRow('/discover/movie?with_genres=28&sort_by=popularity.desc', 'row1');
+            } else {
+                document.getElementById('titleRow1').textContent = 'متابعة المشاهدة لـ سجاد';
+                fetchMoviesRow('/discover/movie?sort_by=popularity.desc', 'row1', true);
+            }
+        }
+
+        window.onload = function() {
+            initHeroBanner();
+            fetchMoviesRow('/discover/movie?sort_by=popularity.desc', 'row1', true);
+            fetchMoviesRow('/trending/movie/week?', 'row2');
+            fetchMoviesRow('/discover/movie?with_genres=878&sort_by=popularity.desc', 'row3');
+        };
     </script>
 </body>
 </html>
