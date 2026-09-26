@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix - منصة الأفلام مع مشغل Plyr والترجمة</title>
+    <title>Netflix - منصة الأفلام مع مشغل Plyr</title>
     
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -147,30 +147,6 @@
         .close-modal-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
         .close-modal-btn:hover { color: var(--netflix-red); }
 
-        .subtitle-upload-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            background: #181818;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            font-size: 0.85rem;
-            color: #ccc;
-        }
-        .subtitle-upload-box label {
-            background: var(--netflix-red);
-            color: white;
-            padding: 5px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: background 0.2s;
-        }
-        .subtitle-upload-box label:hover { background: #f40612; }
-        .subtitle-upload-box input[type="file"] { display: none; }
-        #subFileName { color: var(--text-gray); font-size: 0.8rem; }
-
         .video-container {
             width: 100%;
             background: #000;
@@ -234,21 +210,10 @@
                 <h3 id="modalMovieTitle" style="font-size: 1rem;">مشغل الأفلام</h3>
                 <button class="close-modal-btn" id="closePlyrModal"><i class="fas fa-times"></i></button>
             </div>
-            
-            <div class="subtitle-upload-box">
-                <i class="fas fa-closed-captioning" style="color: var(--netflix-red); font-size: 1.1rem;"></i>
-                <span>الترجمة العربية:</span>
-                <label for="subFileInput">
-                    <i class="fas fa-upload"></i> اختر ملف ترجمة (.vtt)
-                </label>
-                <input type="file" id="subFileInput" accept=".vtt">
-                <span id="subFileName">لم يتم اختيار ملف ترجمة</span>
-            </div>
 
             <div class="video-container">
                 <video id="player" playsinline controls crossorigin>
                     <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.mp4" type="video/mp4" />
-                    <track kind="captions" label="العربية" srclang="ar" src="" default />
                 </video>
             </div>
         </div>
@@ -258,7 +223,6 @@
     <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script>
 
     <script>
-        // قائمة أفلام جاهزة ومضمونة مع صور خلفيات حقيقية عالية الجودة لضمان ظهور الغلافات فوراً بدون أخطاء
         const sampleMovies = [
             { title: "صائد الساحرات الأخيرة", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=800" },
             { title: "سبايدر مان: يوم جديد", image: "https://images.unsplash.com/photo-1635805737707-575885ab0820?q=80&w=800" },
@@ -270,16 +234,13 @@
             { title: "مغامرات الفضاء", image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=800" }
         ];
 
-        // تهيئة مشغل Plyr مع إعدادات التحكم والترجمة
+        // تهيئة مشغل Plyr
         const playerInstance = new Plyr('#player', {
-            captions: { active: true, update: true, language: 'ar' },
-            controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
+            controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'settings', 'pip', 'airplay', 'fullscreen']
         });
 
         const plyrModal = document.getElementById('plyrModal');
         const closePlyrModal = document.getElementById('closePlyrModal');
-        const subFileInput = document.getElementById('subFileInput');
-        const subFileName = document.getElementById('subFileName');
 
         function fillRow(containerId, movies) {
             const container = document.getElementById(containerId);
@@ -303,7 +264,6 @@
             });
         }
 
-        // تعبئة الصفوف بالصور الحقيقية
         fillRow('rowGrid1', sampleMovies);
         fillRow('rowGrid2', sampleMovies.slice().reverse());
 
@@ -316,34 +276,6 @@
         closePlyrModal.addEventListener('click', () => {
             playerInstance.pause();
             plyrModal.style.display = 'none';
-        });
-
-        // تفعيل وتحميل الترجمة العربية (.vtt) وربطها بالمشغل فوراً
-        subFileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                subFileName.textContent = file.name;
-                const subURL = URL.createObjectURL(file);
-                const videoEl = document.getElementById('player');
-                
-                const oldTrack = videoEl.querySelector('track');
-                if (oldTrack) oldTrack.remove();
-
-                const newTrack = document.createElement('track');
-                newTrack.kind = 'captions';
-                newTrack.label = 'العربية (مخصص)';
-                newTrack.srclang = 'ar';
-                newTrack.src = subURL;
-                newTrack.default = true;
-
-                videoEl.appendChild(newTrack);
-                playerInstance.restart();
-                
-                setTimeout(() => {
-                    playerInstance.currentLanguage = 'ar';
-                    playerInstance.toggleCaptions(true);
-                }, 400);
-            }
         });
     </script>
 </body>
