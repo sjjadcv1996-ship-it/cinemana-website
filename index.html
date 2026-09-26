@@ -322,8 +322,8 @@
     </div>
 
     <script>
-        // مفتاح TMDB شغّال ومجرب
-        const API_KEY = '3fd2be6f0cd0efac5d6387234e9202a3';
+        // مفتاح TMDB الخاص بك
+        const API_KEY = '4b93e22787e9bcf9d672b62daaedfceb';
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_URL = 'https://image.tmdb.org/t500';
 
@@ -351,7 +351,6 @@
                 if (data.results && data.results.length > 0) {
                     displayMovies(data.results);
                 } else {
-                    // تجربة الجلب باللغة الإنجليزية في حال غياب العربية
                     const fallbackUrl = `${BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${API_KEY}&language=en-US`;
                     const fallbackRes = await fetch(fallbackUrl);
                     const fallbackData = await fallbackRes.json();
